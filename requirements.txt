@@ -1,0 +1,10 @@
+fake_headers>=1.0.2,<2.0.0
+loguru>=0.7.0,<1.0.0
+aiohttp-retry>=2.8.3,<3.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.1
+tenacity>=8.2.2
+redis>=4.3.0,<5.0.0
+environs>=9.5.0,<10.0.0
+pyquery>=2.0.0,<3.0.0
+supervisor>=4.2.5
