@@ -7,7 +7,7 @@ from proxypool.setting import PROXY_NUMBER_MAX
 from proxypool.storages.redis import RedisClient
 
 
-class Getter(object):
+class Getter:
     """
     getter of proxypool
     """

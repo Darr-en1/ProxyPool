@@ -20,7 +20,7 @@ EXCEPTIONS = (
 )
 
 
-class Tester(object):
+class Tester:
     """
     tester for testing proxies in queue
     """
@@ -73,11 +73,11 @@ class Tester(object):
         """
         # event loop of aiohttp
         logger.info('stating tester...')
-        count = await self.redis.count()
-        logger.debug(f'{count} proxies to test')
         semaphore = asyncio.Semaphore(MAX_WORKERS)
         proxies = await self.redis.all()
         logger.debug(f'testing proxies , count {len(proxies)}')
         if proxies:
             tasks = [asyncio.create_task(self.test(proxy, semaphore)) for proxy in proxies]
             await asyncio.wait(tasks)
+
+        await self.redis.expired_delete()

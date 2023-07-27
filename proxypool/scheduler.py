@@ -1,5 +1,4 @@
 import asyncio
-import multiprocessing
 
 import click
 import uvicorn
@@ -8,12 +7,7 @@ from loguru import logger
 from proxypool.processors.getter import Getter
 from proxypool.processors.tester import Tester
 from proxypool.setting import CYCLE_GETTER, CYCLE_TESTER, API_HOST, API_PORT, ENABLE_SERVER, IS_PROD, ENABLE_GETTER, \
-    ENABLE_TESTER, IS_WINDOWS, WORKERS, APP_DEBUG
-
-if IS_WINDOWS:
-    multiprocessing.freeze_support()
-
-tester_process, getter_process, server_process = None, None, None
+    ENABLE_TESTER, WORKERS, APP_DEBUG
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -28,7 +22,8 @@ def cli():
 
 
 @cli.command()
-@click.option('--cycle', default=CYCLE_TESTER, required=True, type=click.IntRange(10, 30), help='Tester 运行周期，即间隔多久运行一次测试',
+@click.option('--cycle', default=CYCLE_TESTER, required=True, type=click.IntRange(10, 30),
+              help='Tester 运行周期，即间隔多久运行一次测试',
               show_default=True)
 def run_tester(cycle):
     """
@@ -52,7 +47,8 @@ def run_tester(cycle):
 
 
 @cli.command()
-@click.option('--cycle', default=CYCLE_GETTER, required=True, type=click.IntRange(30, 180), help='Getter 运行周期，即间隔多久运行一次代理获取',
+@click.option('--cycle', default=CYCLE_GETTER, required=True, type=click.IntRange(30, 180),
+              help='Getter 运行周期，即间隔多久运行一次代理获取',
               show_default=True)
 def run_getter(cycle):
     """
@@ -84,7 +80,6 @@ def run_server():
     if not ENABLE_SERVER:
         logger.info('server not enabled, exit')
         return
-    # https://zhaobugs.com/2021/01/01/%E4%BD%BF%E7%94%A8%E5%BC%82%E6%AD%A5%E6%9C%8D%E5%8A%A1%E5%99%A8Uvicorn%E5%90%AF%E5%8A%A8fastapi/
     if IS_PROD:
         uvicorn.run("proxypool.processors.server:app", host=API_HOST, port=API_PORT, workers=WORKERS)
     else:

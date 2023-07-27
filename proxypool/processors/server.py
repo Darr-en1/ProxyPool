@@ -4,8 +4,6 @@ from fastapi import FastAPI
 from proxypool.setting import API_HOST, API_PORT, API_THREADED, IS_DEV
 from proxypool.storages.redis import RedisClient
 
-__all__ = ['app']
-
 app = FastAPI()
 
 if IS_DEV:

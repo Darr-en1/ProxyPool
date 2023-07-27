@@ -8,14 +8,14 @@ from loguru import logger
 from tenacity import retry, stop_after_attempt, before_log, wait_random
 
 from proxypool.schemas import Proxy
-from proxypool.setting import GET_TIMEOUT, RAISE_FOR_STATUS, RETRY_OPTION
+from proxypool.setting import GET_TIMEOUT, RAISE_FOR_STATUS, RETRY_OPTION, RETRIES
 
 
 class BaseCrawler:
     urls = []
 
     # reraise True 返回原本异常
-    @retry(stop=stop_after_attempt(3), reraise=True, wait=wait_random(min=1, max=3), before=before_log(logger, logging.DEBUG))
+    @retry(stop=stop_after_attempt(RETRIES), reraise=True, wait=wait_random(min=1, max=3), before=before_log(logger, logging.DEBUG))
     async def fetch(self, url, **kwargs):
         headers = Headers(headers=True).generate()
         kwargs.setdefault('timeout', GET_TIMEOUT)

@@ -88,7 +88,15 @@ class RedisClient(object):
         :return: new score
         """
         logger.info(f'{proxy.string()} remove')
-        await self.db.zrem(REDIS_KEY, proxy.string())
+        return await self.db.zrem(REDIS_KEY, proxy.string())
+
+    async def expired_delete(self) -> int:
+        """
+        remove expired proxy
+        :return: new score
+        """
+        logger.info(f'remove expired proxy')
+        return await self.db.zremrangebyscore(REDIS_KEY, "-inf", int(time.time()))
 
     async def exists(self, proxy: Proxy) -> bool:
         """

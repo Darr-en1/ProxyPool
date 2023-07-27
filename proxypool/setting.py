@@ -1,4 +1,3 @@
-import platform
 import shutil
 from os.path import dirname, abspath, join
 
@@ -10,9 +9,6 @@ _ = RandomRetry
 
 env = Env()
 env.read_env()
-
-# definition of flags
-IS_WINDOWS = platform.system().lower() == 'windows'
 
 # definition of dirs
 ROOT_DIR = dirname(dirname(abspath(__file__)))
