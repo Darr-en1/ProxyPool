@@ -1,5 +1,19 @@
 # ProxyPool
 
+该项目主要针对企业级代理池设计实现，基于 [https://github.com/Python3WebSpider/ProxyPool](https://github.com/Python3WebSpider/ProxyPool)，作者  [崔庆才](https://cuiqingcai.com/) ，是我非常喜欢的一个技术大拿，他所著作的《书籍python3网络爬虫》真的既详细又有深度，非常推荐。
+
+该项目源码地址：[https://github.com/Darr-en1/ProxyPool](https://github.com/Darr-en1/ProxyPool)
+
+项目文章: [代理池构建](http://darr-en1.top/)
+
+**项目优势：**
+
+- **项目对原有项目进行了重构，使用async异步编程，引入fastapi，整个服务的性能得到显著提升**
+- **依赖管理使用poetry，可以管理直接依賴和间接依赖，可以区分多环境依赖**
+- **通过black、isort、mypy实现严格的代码规范，保证统一的代码风格，并通过pre-commit确保代码的质量和一致性**
+
+## 功能
+
 简易高效的代理池，提供如下功能：
 
 - 定时抓取代理，简易可扩展。
@@ -41,7 +55,7 @@ export PROXYPOOL_REDIS_DB=0
 export PROXYPOOL_REDIS_CONNECTION_STRING='redis://localhost'
 ```
 
-## 运行
+###  项目执行
 
 查看执行命令
 
@@ -68,9 +82,9 @@ Commands:
 
 三个服务分别是
 
-- Getter
-- Server
-- Tester
+- Getter：代理获取模块
+- Server：代理服务器
+- Tester：代理检测模块
 
 这时候访问 [http://0.0.0.0:5555/docs#/](http://0.0.0.0:5555/docs#/) 即查看API详情。
 
