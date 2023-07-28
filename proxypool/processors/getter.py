@@ -1,8 +1,6 @@
-from typing import List, Type
-
 from loguru import logger
 
-from proxypool.crawlers import BaseCrawler, classes
+from proxypool.crawlers import classes
 from proxypool.setting import PROXY_NUMBER_MAX
 from proxypool.storages.redis import RedisClient
 
