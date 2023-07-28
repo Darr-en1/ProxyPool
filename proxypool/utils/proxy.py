@@ -5,9 +5,9 @@ def is_valid_proxy(data):
     """
     check this string is within proxy format
     """
-    if data.__contains__(':'):
-        ip = data.split(':')[0]
-        port = data.split(':')[1]
+    if data.__contains__(":"):
+        ip = data.split(":")[0]
+        port = data.split(":")[1]
         return is_ip_valid(ip) and is_port_valid(port)
     else:
         return is_ip_valid(data)
@@ -17,7 +17,7 @@ def is_ip_valid(ip):
     """
     check this string is within ip format
     """
-    a = ip.split('.')
+    a = ip.split(".")
     if len(a) != 4:
         return False
     for x in a:
@@ -61,5 +61,5 @@ def convert_proxy(data):
     proxy = proxy.strip()
     if not is_valid_proxy(proxy):
         return
-    host, port = proxy.split(':')
+    host, port = proxy.split(":")
     return Proxy(host=host, port=int(port), expire=int(expire))

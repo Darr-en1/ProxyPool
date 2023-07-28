@@ -2,7 +2,7 @@ from typing import List, Type
 
 from loguru import logger
 
-from proxypool.crawlers import __all__ as crawlers_cls, BaseCrawler
+from proxypool.crawlers import BaseCrawler, classes
 from proxypool.setting import PROXY_NUMBER_MAX
 from proxypool.storages.redis import RedisClient
 
@@ -17,8 +17,8 @@ class Getter:
         init db and crawlers
         """
         self.redis = RedisClient()
-        self.crawlers_cls: List[Type[BaseCrawler]] = crawlers_cls
-        self.crawlers: List[BaseCrawler] = [crawler_cls() for crawler_cls in self.crawlers_cls]
+        self.crawlers_cls = classes
+        self.crawlers = [crawler_cls() for crawler_cls in self.crawlers_cls]
 
     async def is_full(self):
         """
@@ -36,7 +36,9 @@ class Getter:
         if await self.is_full():
             return
         for crawler in self.crawlers:
-            logger.info(f'crawler {crawler} to get proxy')
+            logger.info(f"crawler {crawler} to get proxy")
             async for proxy_list in crawler:
                 new_proxy_number = await self.redis.batch_add(proxy_list)
-                logger.info(f'batch_add {proxy_list=} number of new proxy: {new_proxy_number=}')
+                logger.info(
+                    f"batch_add {proxy_list=} number of new proxy: {new_proxy_number=}"
+                )

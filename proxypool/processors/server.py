@@ -25,16 +25,16 @@ def build_conn():
 get_conn = build_conn()
 
 
-@app.get('/ping')
+@app.get("/ping")
 async def index():
     """
     ping pong
     :return:
     """
-    return 'pong'
+    return "pong"
 
 
-@app.get('/random')
+@app.get("/random")
 async def get_proxy():
     """
     get a random proxy
@@ -45,7 +45,7 @@ async def get_proxy():
     return proxy.string()
 
 
-@app.get('/all')
+@app.get("/all")
 async def get_proxy_all():
     """
     get a random proxy
@@ -56,7 +56,7 @@ async def get_proxy_all():
     return proxies
 
 
-@app.get('/count')
+@app.get("/count")
 async def get_count():
     """
     get the count of proxies
@@ -66,5 +66,7 @@ async def get_count():
     return int(await conn.count())
 
 
-if __name__ == '__main__':
-    uvicorn.run(app=app, host=API_HOST, port=API_PORT, reload=True, workers=API_THREADED)
+if __name__ == "__main__":
+    uvicorn.run(
+        app=app, host=API_HOST, port=API_PORT, reload=True, workers=API_THREADED
+    )

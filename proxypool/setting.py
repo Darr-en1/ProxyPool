@@ -1,7 +1,7 @@
 import shutil
-from os.path import dirname, abspath, join
+from os.path import abspath, dirname, join
 
-from aiohttp_retry.retry_options import *
+from aiohttp_retry.retry_options import RandomRetry
 from environs import Env
 from loguru import logger
 
@@ -12,37 +12,35 @@ env.read_env()
 
 # definition of dirs
 ROOT_DIR = dirname(dirname(abspath(__file__)))
-LOG_DIR = join(ROOT_DIR, env.str('LOG_DIR', 'logs'))
+LOG_DIR = join(ROOT_DIR, env.str("LOG_DIR", "logs"))
 
 # definition of environments
-DEV_MODE, TEST_MODE, PROD_MODE = 'dev', 'test', 'prod'
-APP_ENV = env.str('APP_ENV', DEV_MODE).lower()
-APP_DEBUG = env.bool('APP_DEBUG', APP_ENV == DEV_MODE)
+DEV_MODE, TEST_MODE, PROD_MODE = "dev", "test", "prod"
+APP_ENV = env.str("APP_ENV", DEV_MODE).lower()
+APP_DEBUG = env.bool("APP_DEBUG", APP_ENV == DEV_MODE)
 APP_DEV = IS_DEV = APP_ENV == DEV_MODE
 APP_PROD = IS_PROD = APP_ENV == PROD_MODE
 APP_TEST = IS_TEST = APP_ENV == TEST_MODE
 
 # ASGI args
-WORKERS = env.int('workers', 4)
+WORKERS = env.int("workers", 4)
 
 # redis host
-REDIS_HOST = env.str('PROXYPOOL_REDIS_HOST',
-                     env.str('REDIS_HOST', '127.0.0.1'))
+REDIS_HOST = env.str("PROXYPOOL_REDIS_HOST", env.str("REDIS_HOST", "127.0.0.1"))
 # redis port
-REDIS_PORT = env.int('PROXYPOOL_REDIS_PORT', env.int('REDIS_PORT', 6379))
+REDIS_PORT = env.int("PROXYPOOL_REDIS_PORT", env.int("REDIS_PORT", 6379))
 # redis password, if no password, set it to None
-REDIS_PASSWORD = env.str('PROXYPOOL_REDIS_PASSWORD',
-                         env.str('REDIS_PASSWORD', None))
+REDIS_PASSWORD = env.str("PROXYPOOL_REDIS_PASSWORD", env.str("REDIS_PASSWORD", None))
 # redis db, if no choice, set it to 0
-REDIS_DB = env.int('PROXYPOOL_REDIS_DB', env.int('REDIS_DB', 0))
+REDIS_DB = env.int("PROXYPOOL_REDIS_DB", env.int("REDIS_DB", 0))
 # redis connection string, like redis://[password]@host:port or rediss://[password]@host:port/0,
 # please refer to https://redis-py.readthedocs.io/en/stable/connections.html#redis.client.Redis.from_url
 REDIS_CONNECTION_STRING = env.str(
-    'PROXYPOOL_REDIS_CONNECTION_STRING', env.str('REDIS_CONNECTION_STRING', None))
+    "PROXYPOOL_REDIS_CONNECTION_STRING", env.str("REDIS_CONNECTION_STRING", None)
+)
 
 # redis hash table key name
-REDIS_KEY = env.str('PROXYPOOL_REDIS_KEY', env.str(
-    'REDIS_KEY', 'proxies:universal'))
+REDIS_KEY = env.str("PROXYPOOL_REDIS_KEY", env.str("REDIS_KEY", "proxies:universal"))
 
 # proxy settings
 DEDUCTION_EXPIRATION_TIME = 20  # 到期时间的偏移量
@@ -52,54 +50,57 @@ PROXY_NUMBER_MAX = 50000
 PROXY_NUMBER_MIN = 0
 
 # definition of tester cycle, it will test every CYCLE_TESTER second
-CYCLE_TESTER = env.int('CYCLE_TESTER', 20)
+CYCLE_TESTER = env.int("CYCLE_TESTER", 20)
 # definition of getter cycle, it will get proxy every CYCLE_GETTER second
-CYCLE_GETTER = env.int('CYCLE_GETTER', 100)
-GET_TIMEOUT = env.int('GET_TIMEOUT', 10)
+CYCLE_GETTER = env.int("CYCLE_GETTER", 100)
+GET_TIMEOUT = env.int("GET_TIMEOUT", 10)
 
 # definition of tester
-TEST_URL = env.str('TEST_URL', 'http://www.baidu.com')
-TEST_TIMEOUT = env.int('TEST_TIMEOUT', 10)
+TEST_URL = env.str("TEST_URL", "http://www.baidu.com")
+TEST_TIMEOUT = env.int("TEST_TIMEOUT", 10)
 # only save anonymous proxy
-TEST_ANONYMOUS = env.bool('TEST_ANONYMOUS', True)
-TEST_VALID_STATUS = env.list('TEST_VALID_STATUS', [200, 206, 302])
-MAX_WORKERS = env.int('MAX_WORKERS', 20)
+TEST_ANONYMOUS = env.bool("TEST_ANONYMOUS", True)
+TEST_VALID_STATUS = env.list("TEST_VALID_STATUS", [200, 206, 302])
+MAX_WORKERS = env.int("MAX_WORKERS", 20)
 
 # definition of api
-API_HOST = env.str('API_HOST', '0.0.0.0')
-API_PORT = env.int('API_PORT', 5555)
-API_THREADED = env.bool('API_THREADED', True)
+API_HOST = env.str("API_HOST", "0.0.0.0")
+API_PORT = env.int("API_PORT", 5555)
+API_THREADED = env.bool("API_THREADED", True)
 
 # flags of enable
-ENABLE_TESTER = env.bool('ENABLE_TESTER', True)
-ENABLE_GETTER = env.bool('ENABLE_GETTER', True)
-ENABLE_SERVER = env.bool('ENABLE_SERVER', True)
+ENABLE_TESTER = env.bool("ENABLE_TESTER", True)
+ENABLE_GETTER = env.bool("ENABLE_GETTER", True)
+ENABLE_SERVER = env.bool("ENABLE_SERVER", True)
 
-ENABLE_LOG_FILE = env.bool('ENABLE_LOG_FILE', True)
-ENABLE_LOG_RUNTIME_FILE = env.bool('ENABLE_LOG_RUNTIME_FILE', True)
-ENABLE_LOG_ERROR_FILE = env.bool('ENABLE_LOG_ERROR_FILE', True)
+ENABLE_LOG_FILE = env.bool("ENABLE_LOG_FILE", True)
+ENABLE_LOG_RUNTIME_FILE = env.bool("ENABLE_LOG_RUNTIME_FILE", True)
+ENABLE_LOG_ERROR_FILE = env.bool("ENABLE_LOG_ERROR_FILE", True)
 
-LOG_LEVEL_MAP = {
-    DEV_MODE: "DEBUG",
-    TEST_MODE: "INFO",
-    PROD_MODE: "ERROR"
-}
+LOG_LEVEL_MAP = {DEV_MODE: "DEBUG", TEST_MODE: "INFO", PROD_MODE: "ERROR"}
 
 LOG_LEVEL = LOG_LEVEL_MAP.get(APP_ENV)
-LOG_ROTATION = env.str('LOG_ROTATION', '500MB')
-LOG_RETENTION = env.str('LOG_RETENTION', '1 week')
+LOG_ROTATION = env.str("LOG_ROTATION", "500MB")
+LOG_RETENTION = env.str("LOG_RETENTION", "1 week")
 
 if ENABLE_LOG_FILE:
     if ENABLE_LOG_RUNTIME_FILE:
-        logger.add(env.str('LOG_RUNTIME_FILE', join(LOG_DIR, 'runtime.log')),
-                   level=LOG_LEVEL, rotation=LOG_ROTATION, retention=LOG_RETENTION)
+        logger.add(
+            env.str("LOG_RUNTIME_FILE", join(LOG_DIR, "runtime.log")),
+            level=LOG_LEVEL,
+            rotation=LOG_ROTATION,
+            retention=LOG_RETENTION,
+        )
     if ENABLE_LOG_ERROR_FILE:
-        logger.add(env.str('LOG_ERROR_FILE', join(LOG_DIR, 'error.log')),
-                   level='ERROR', rotation=LOG_ROTATION)
+        logger.add(
+            env.str("LOG_ERROR_FILE", join(LOG_DIR, "error.log")),
+            level="ERROR",
+            rotation=LOG_ROTATION,
+        )
 else:
     shutil.rmtree(LOG_DIR, ignore_errors=True)
 
 # aiohttp-retry
-RAISE_FOR_STATUS = env.bool('RAISE_FOR_STATUS', False)
+RAISE_FOR_STATUS = env.bool("RAISE_FOR_STATUS", False)
 RETRIES = 3
-RETRY_OPTION = eval(env.str('RETRY_OPTION', 'RandomRetry'))(attempts=RETRIES)
+RETRY_OPTION = eval(env.str("RETRY_OPTION", "RandomRetry"))(attempts=RETRIES)

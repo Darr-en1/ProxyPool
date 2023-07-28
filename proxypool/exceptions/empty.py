@@ -4,4 +4,4 @@ class PoolEmptyException(Exception):
         proxypool is used out
         :return:
         """
-        return repr('no proxy in proxypool')
+        return repr("no proxy in proxypool")
