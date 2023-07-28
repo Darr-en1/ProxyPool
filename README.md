@@ -1,6 +1,6 @@
 # ProxyPool
 
-该项目主要针对企业级代理池设计实现，基于 [https://github.com/Python3WebSpider/ProxyPool](https://github.com/Python3WebSpider/ProxyPool)，作者  [崔庆才](https://cuiqingcai.com/) ，是我非常喜欢的一个技术大拿，他所著作的《书籍python3网络爬虫》真的既详细又有深度，非常推荐。
+该项目主要针对企业级代理池设计实现，基于 [https://github.com/Python3WebSpider/ProxyPool](https://github.com/Python3WebSpider/ProxyPool)，作者  [崔庆才](https://cuiqingcai.com/) ，是我非常喜欢的一个技术大拿，他所著作的书籍《python3网络爬虫》真的既详细又有深度，非常推荐。
 
 该项目源码地址：[https://github.com/Darr-en1/ProxyPool](https://github.com/Darr-en1/ProxyPool)
 
