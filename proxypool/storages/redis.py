@@ -19,7 +19,7 @@ from proxypool.setting import (
 from proxypool.utils.proxy import convert_proxies, convert_proxy, is_valid_proxy
 
 
-class RedisClient(object):
+class RedisClient:
     """
     redis connection client of proxypool
     """
