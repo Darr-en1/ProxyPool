@@ -86,11 +86,11 @@ Commands:
 - Server：代理服务器
 - Tester：代理检测模块
 
-这时候访问 [http://0.0.0.0:5555/docs#/](http://0.0.0.0:5555/docs#/) 即查看API详情。
-
 ## 使用
 
 成功运行之后可以通过 [http://localhost:5555/random](http://localhost:5555/random) 获取一个随机可用代理。
+
+访问 [http://0.0.0.0:5555/docs#/](http://0.0.0.0:5555/docs#/) 即查看API详情。
 
 可以用程序对接实现，下面的示例展示了获取代理并爬取网页的过程：
 
